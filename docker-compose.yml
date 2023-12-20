@@ -1,11 +1,11 @@
 services:
   vue-app:
-    image: node:latest
+    image: ghcr.io/iichanize/sudoku_vue3:latest
     tty: true
     environment:
       - NODE_ENV=development
-    volumes:
-      - ./vueApp:/app
-    # command: sh -c "cd vue-sample/ && npm run serve"
+    # volumes:
+      # - ./vueApp:/app
+    command: sh -c "cd sudoku_vue3/vueApp/vue-sample/ && npm run serve"
     ports:
       - "8090:8080"
