@@ -1,13 +1,11 @@
 services:
   vue-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: node:latest
     tty: true
     environment:
       - NODE_ENV=development
     volumes:
       - ./vueApp:/app
-    command: sh -c "cd vue-sample && npm run serve"
+    # command: sh -c "cd vue-sample/ && npm run serve"
     ports:
       - "8090:8080"
