@@ -176,6 +176,6 @@ export class SudokuSolver {
       return !(
         alreadyUsedNumber.indexOf(v) !== -1 && numbers.indexOf(v!) !== -1
       );
-    })!;
+    });
   };
 }
