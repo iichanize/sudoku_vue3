@@ -1,7 +1,11 @@
 <template>
   <table id="table">
     <tr v-for="(lines, index1) in field" v-bind:key="index1">
-      <td v-for="(num, index2) in lines" v-bind:key="index2">
+      <td
+        v-for="(num, index2) in lines"
+        v-bind:key="index2"
+        v-bind:id="tableId(index1, index2)"
+      >
         <button
           v-bind:id="buttonId(index1, index2)"
           name="box"
@@ -47,6 +51,10 @@
         const value = index1 * 9 + index2;
         return "button" + String(value);
       };
+      const tableId = (index1: number, index2: number) => {
+        const value = index1 * 9 + index2;
+        return "td" + String(value);
+      };
       const initField = () => {
         field.value = solver.initField(field.value);
       };
@@ -54,6 +62,7 @@
 
       return {
         buttonId,
+        tableId,
         countUp,
         field,
         initField,
@@ -89,5 +98,46 @@
   }
   button[id^="button"]:active {
     background-color: #aaa;
+  }
+
+  #td2,
+  #td5,
+  #td11,
+  #td14,
+  #td20,
+  #td23,
+  #td29,
+  #td32,
+  #td38,
+  #td41,
+  #td47,
+  #td50,
+  #td56,
+  #td59,
+  #td65,
+  #td68,
+  #td74,
+  #td77 {
+    border-right: 3px solid #ccc !important;
+  }
+  #td27,
+  #td28,
+  #td29,
+  #td30,
+  #td31,
+  #td32,
+  #td33,
+  #td34,
+  #td35,
+  #td54,
+  #td55,
+  #td56,
+  #td57,
+  #td58,
+  #td59,
+  #td60,
+  #td61,
+  #td62 {
+    border-top: 3px solid #ccc !important;
   }
 </style>

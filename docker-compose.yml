@@ -5,7 +5,7 @@ services:
     environment:
       - NODE_ENV=development
     # volumes:
-      # - ./vueApp:/app
-    command: sh -c "cd sudoku_vue3/vueApp/vue-sample/ && npm run serve"
+    # - ./vueApp:/app
+    command: sh -c "cd sudoku_vue3/vueApp/vue-sample/ && npm install && npm run serve"
     ports:
       - "8090:8080"
