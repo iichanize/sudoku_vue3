@@ -58,7 +58,11 @@
       const initField = () => {
         field.value = solver.initField(field.value);
       };
+      const openRandomSquare = () => {
+        field.value = solver.openRandomSquare(field.value);
+      };
       initField();
+      openRandomSquare();
 
       return {
         buttonId,
@@ -66,6 +70,7 @@
         countUp,
         field,
         initField,
+        openRandomSquare,
       };
     },
   });

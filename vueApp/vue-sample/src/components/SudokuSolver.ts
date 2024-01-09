@@ -28,6 +28,8 @@ export class SudokuSolver {
   unuseNumbers = null;
   // 値挿入時に使用する添字
   iTmp = 0;
+  // 穴あきの数
+  HOLE_NUM = 40;
 
   // メインメソッド
   completeBoard = () => {
@@ -70,7 +72,6 @@ export class SudokuSolver {
   // ゴールノードかどうか
   isSolve = () => {
     const values = this.boardArray.filter((x) => x.value == null);
-    console.log("残り" + values.length);
     if (values.length == 0) {
       return true;
     }
@@ -177,5 +178,27 @@ export class SudokuSolver {
         alreadyUsedNumber.indexOf(v) !== -1 && numbers.indexOf(v!) !== -1
       );
     });
+  };
+
+  openRandomSquare = (field: string[][]) => {
+    const openList: { col: number; row: number }[] = [];
+    for (let i = 0; i < this.HOLE_NUM; i++) {
+      const x = this.getRandomValue();
+      const y = this.getRandomValue();
+      const map = { col: x, row: y };
+      if (openList.includes(map)) {
+        i--;
+        continue;
+      }
+      openList.push(map);
+    }
+    for (const i in openList) {
+      field[openList[i].col][openList[i].row] = "-";
+    }
+    return field;
+  };
+
+  getRandomValue = () => {
+    return Math.floor(Math.random() * 9);
   };
 }
