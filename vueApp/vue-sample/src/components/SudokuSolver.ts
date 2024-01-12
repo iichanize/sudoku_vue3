@@ -29,7 +29,7 @@ export class SudokuSolver {
   // 値挿入時に使用する添字
   iTmp = 0;
   // 穴あきの数
-  HOLE_NUM = 40;
+  HOLE_NUM = 50;
 
   // メインメソッド
   completeBoard = () => {
@@ -170,12 +170,13 @@ export class SudokuSolver {
   // 使用可能な数字を抽出
   getAvailableNumbers = (square: SudokuSquare) => {
     const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    // 自信が属する列・行・3X3の全ての数列
+    // 自身が属する列・行・3X3の全ての数列
     const alreadyUsedNumber = this.getObjectNumbersNeedToBeCheck(square);
     const arr = alreadyUsedNumber.concat(numbers);
-    return arr.filter((v, i) => {
-      return !(
-        alreadyUsedNumber.indexOf(v) !== -1 && numbers.indexOf(v!) !== -1
+    return arr.filter((v) => {
+      return (
+        v != null &&
+        !(alreadyUsedNumber.indexOf(v) !== -1 && numbers.indexOf(v) !== -1)
       );
     });
   };
