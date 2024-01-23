@@ -29,7 +29,7 @@ export class SudokuSolver {
   // 値挿入時に使用する添字
   iTmp = 0;
   // 穴あきの数
-  HOLE_NUM = 50;
+  HOLE_NUM = 10;
 
   // メインメソッド
   completeBoard = () => {

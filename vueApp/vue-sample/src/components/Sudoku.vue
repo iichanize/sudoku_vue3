@@ -20,6 +20,8 @@
 <script lang="ts">
   import { defineComponent, ref } from "vue";
   import { SudokuSolver } from "./SudokuSolver";
+  import { correctFieldStore } from "@/store/CorrectFieldStore";
+  import { fieldStore } from "@/store/FieldStore";
 
   export default defineComponent({
     name: "HelloWorld",
@@ -27,6 +29,8 @@
       msg: String,
     },
     setup(props, ctx) {
+      const correctStore = correctFieldStore();
+      const nowStore = fieldStore();
       let field = ref([
         ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
         ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
@@ -45,6 +49,7 @@
           field.value[index1][index2] = "0";
         let num = parseInt(field.value[index1][index2]) + 1;
         field.value[index1][index2] = num > 9 ? "-" : String(num);
+        nowStore.update(JSON.parse(JSON.stringify(field.value)));
         return;
       };
       const buttonId = (index1: number, index2: number) => {
@@ -62,7 +67,9 @@
         field.value = solver.openRandomSquare(field.value);
       };
       initField();
+      correctStore.update(JSON.parse(JSON.stringify(field.value)));
       openRandomSquare();
+      nowStore.update(JSON.parse(JSON.stringify(field.value)));
 
       return {
         buttonId,
