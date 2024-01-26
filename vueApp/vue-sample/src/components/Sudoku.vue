@@ -3,13 +3,14 @@
     <tr v-for="(lines, index1) in field" v-bind:key="index1">
       <td
         v-for="(num, index2) in lines"
-        v-bind:key="index2"
-        v-bind:id="tableId(index1, index2)"
+        :key="index2"
+        :id="tableId(index1, index2)"
       >
         <button
-          v-bind:id="buttonId(index1, index2)"
+          :id="buttonId(index1, index2)"
           name="box"
           @click="countUp(index1, index2)"
+          disabled
         >
           {{ num }}
         </button>
@@ -18,7 +19,7 @@
   </table>
 </template>
 <script lang="ts">
-  import { defineComponent, ref } from "vue";
+  import { defineComponent, onMounted, ref } from "vue";
   import { SudokuSolver } from "./SudokuSolver";
   import { correctFieldStore } from "@/store/CorrectFieldStore";
   import { fieldStore } from "@/store/FieldStore";
@@ -66,11 +67,24 @@
       const openRandomSquare = () => {
         field.value = solver.openRandomSquare(field.value);
       };
+      const lockField = () => {
+        for (let i = 0; i < 9; i++) {
+          for (let j = 0; j < 9; j++) {
+            if (nowStore.getField[i][j] == "-") {
+              const dom = document.getElementById(buttonId(i, j));
+              console.log(i, j, dom);
+              if (dom) dom.removeAttribute("disabled");
+            }
+          }
+        }
+      };
       initField();
       correctStore.update(JSON.parse(JSON.stringify(field.value)));
       openRandomSquare();
       nowStore.update(JSON.parse(JSON.stringify(field.value)));
-
+      onMounted(() => {
+        lockField();
+      });
       return {
         buttonId,
         tableId,
