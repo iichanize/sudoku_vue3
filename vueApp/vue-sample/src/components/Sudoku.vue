@@ -118,12 +118,16 @@
     font-size: 32px;
     background-color: white;
     cursor: pointer;
+    color: rgb(232, 51, 51);
   }
   button[id^="button"]:hover {
     background-color: #ccc;
   }
   button[id^="button"]:active {
     background-color: #aaa;
+  }
+  button[id^="button"]:disabled {
+    color: black;
   }
 
   #td2,
