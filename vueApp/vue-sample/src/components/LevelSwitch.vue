@@ -29,7 +29,7 @@
     />
     <label for="level3">HARD</label>
     <br />
-    <button @click="restart">Restart</button>
+    <button @click="restart">RESTART</button>
   </div>
 </template>
 

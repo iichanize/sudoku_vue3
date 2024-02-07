@@ -2,9 +2,6 @@
   <div class="about">
     <h1>Sudoku</h1>
   </div>
-  <div>
-    <p v-if="completeFlag">Complete!</p>
-  </div>
   <div
     class="container mx-auto"
     id="id_container"
@@ -14,6 +11,20 @@
   </div>
   <div class="fieldFooter">
     <button @click="check" class="checkButton">CHECK</button>
+    <div class="result">
+      <span>判定結果</span>
+      <img
+        class="resultImg"
+        v-if="completeFlag === 1"
+        src="@/assets/circle.png"
+      />
+      <img
+        class="resultImg"
+        v-else-if="completeFlag === 2"
+        src="@/assets/cross.png"
+      />
+      <div v-else class="resultImg"></div>
+    </div>
     <LevelSwitch />
   </div>
 </template>
@@ -33,7 +44,7 @@
       LevelSwitch,
     },
     setup() {
-      let completeFlag = ref(false);
+      let completeFlag = ref(0);
       const correct = correctFieldStore();
       const now = fieldStore();
       const resetStore = ResetStore();
@@ -41,15 +52,15 @@
       const check = () => {
         if (JSON.stringify(correct.getField) === JSON.stringify(now.getField)) {
           console.log("CORRECT!!");
-          completeFlag.value = true;
+          completeFlag.value = 1;
         } else {
           console.log("NOT CORRECT...");
-          completeFlag.value = false;
+          completeFlag.value = 2;
         }
       };
       resetStore.$subscribe((mutation, state) => {
         console.log(mutation.events, state);
-        renderKey.value += 1;
+        renderKey.value = state.value;
       });
       return {
         completeFlag,
@@ -71,5 +82,15 @@
   }
   .checkButton {
     margin: 10px 20px;
+  }
+  .result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 20px;
+  }
+  .resultImg {
+    width: 100px;
+    height: 100px;
   }
 </style>

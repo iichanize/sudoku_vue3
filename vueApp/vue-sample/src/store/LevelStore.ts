@@ -23,7 +23,7 @@ export const ResetStore = defineStore("reset", {
   state: () => {
     return {
       id: "reset",
-      value: false,
+      value: 0,
     };
   },
   getters: {
@@ -33,7 +33,7 @@ export const ResetStore = defineStore("reset", {
   },
   actions: {
     update() {
-      this.value = !this.value;
+      this.value += 1;
     },
   },
 });
