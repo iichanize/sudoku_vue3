@@ -19,10 +19,11 @@
   </table>
 </template>
 <script lang="ts">
-  import { defineComponent, onMounted, ref } from "vue";
+  import { computed, defineComponent, onMounted, ref } from "vue";
   import { SudokuSolver } from "./SudokuSolver";
   import { correctFieldStore } from "@/store/CorrectFieldStore";
   import { fieldStore } from "@/store/FieldStore";
+  import { LevelStore } from "@/store/LevelStore";
 
   export default defineComponent({
     name: "HelloWorld",
@@ -32,6 +33,7 @@
     setup(props, ctx) {
       const correctStore = correctFieldStore();
       const nowStore = fieldStore();
+      const levelStore = LevelStore();
       let field = ref([
         ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
         ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
@@ -64,24 +66,26 @@
       const initField = () => {
         field.value = solver.initField(field.value);
       };
-      const openRandomSquare = () => {
-        field.value = solver.openRandomSquare(field.value);
+      const openRandomSquare = (level: string) => {
+        field.value = solver.openRandomSquare(field.value, level);
       };
       const lockField = () => {
         for (let i = 0; i < 9; i++) {
           for (let j = 0; j < 9; j++) {
             if (nowStore.getField[i][j] == "-") {
               const dom = document.getElementById(buttonId(i, j));
-              console.log(i, j, dom);
               if (dom) dom.removeAttribute("disabled");
             }
           }
         }
       };
-      initField();
-      correctStore.update(JSON.parse(JSON.stringify(field.value)));
-      openRandomSquare();
-      nowStore.update(JSON.parse(JSON.stringify(field.value)));
+      const resetField = () => {
+        initField();
+        correctStore.update(JSON.parse(JSON.stringify(field.value)));
+        openRandomSquare(levelStore.getLevel);
+        nowStore.update(JSON.parse(JSON.stringify(field.value)));
+      };
+      resetField();
       onMounted(() => {
         lockField();
       });
@@ -92,6 +96,7 @@
         field,
         initField,
         openRandomSquare,
+        resetField,
       };
     },
   });
@@ -118,7 +123,6 @@
     font-size: 32px;
     background-color: white;
     cursor: pointer;
-    color: rgb(232, 51, 51);
   }
   button[id^="button"]:hover {
     background-color: #ccc;
@@ -127,6 +131,7 @@
     background-color: #aaa;
   }
   button[id^="button"]:disabled {
+    border: 1px solid #888;
     color: black;
   }
 

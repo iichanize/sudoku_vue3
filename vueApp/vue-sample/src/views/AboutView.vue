@@ -10,11 +10,15 @@
     id="id_container"
     style="text-align: center; width: 95%; height: 70%; margin: 0 auto"
   >
-    <Sudoku />
+    <Sudoku :key="renderKey" />
   </div>
-  <button @click="check">CHECK</button>
+  <div class="fieldFooter">
+    <button @click="check" class="checkButton">CHECK</button>
+    <LevelSwitch />
+  </div>
+
   <p>TODO:</p>
-  <li>最初の盤面で穴じゃないボタンをDisabledにする</li>
+  <li>最初の盤面で穴じゃないボタンをDisabledにする OK</li>
   <li>成否判定ボタン+機能 OK</li>
   <li>難易度選択</li>
   <li>リスタートボタン</li>
@@ -22,20 +26,25 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from "vue";
+  import { defineComponent, ref, watch } from "vue";
   import Sudoku from "@/components/Sudoku.vue";
+  import LevelSwitch from "@/components/LevelSwitch.vue";
   import { correctFieldStore } from "@/store/CorrectFieldStore";
   import { fieldStore } from "@/store/FieldStore";
+  import { ResetStore } from "@/store/LevelStore";
 
   export default defineComponent({
     name: "AboutView",
     components: {
       Sudoku,
+      LevelSwitch,
     },
     setup() {
       let completeFlag = ref(false);
       const correct = correctFieldStore();
       const now = fieldStore();
+      const resetStore = ResetStore();
+      const renderKey = ref(0);
       const check = () => {
         if (JSON.stringify(correct.getField) === JSON.stringify(now.getField)) {
           console.log("CORRECT!!");
@@ -45,12 +54,29 @@
           completeFlag.value = false;
         }
       };
+      resetStore.$subscribe((mutation, state) => {
+        console.log(mutation.events, state);
+        renderKey.value += 1;
+      });
       return {
         completeFlag,
         correct,
         now,
         check,
+        gameLevel: "",
+        renderKey,
       };
     },
   });
 </script>
+
+<style>
+  .fieldFooter {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  .checkButton {
+    margin: 10px 20px;
+  }
+</style>

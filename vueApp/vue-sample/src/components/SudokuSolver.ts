@@ -1,4 +1,6 @@
+import { HoleNum } from "@/components/HoleNum";
 import { SudokuSquare } from "./SudokuSquare";
+
 export class SudokuSolver {
   initField = (field: string[][]) => {
     this.completeBoard();
@@ -29,7 +31,7 @@ export class SudokuSolver {
   // 値挿入時に使用する添字
   iTmp = 0;
   // 穴あきの数
-  HOLE_NUM = 10;
+  HOLE_NUM = 70;
 
   // メインメソッド
   completeBoard = () => {
@@ -181,9 +183,9 @@ export class SudokuSolver {
     });
   };
 
-  openRandomSquare = (field: string[][]) => {
+  openRandomSquare = (field: string[][], level: string) => {
     const openList: { col: number; row: number }[] = [];
-    for (let i = 0; i < this.HOLE_NUM; i++) {
+    for (let i = 0; i < HoleNum[level]; i++) {
       const x = this.getRandomValue();
       const y = this.getRandomValue();
       const map = { col: x, row: y };
