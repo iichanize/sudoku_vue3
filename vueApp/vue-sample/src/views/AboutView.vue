@@ -16,13 +16,6 @@
     <button @click="check" class="checkButton">CHECK</button>
     <LevelSwitch />
   </div>
-
-  <p>TODO:</p>
-  <li>最初の盤面で穴じゃないボタンをDisabledにする OK</li>
-  <li>成否判定ボタン+機能 OK</li>
-  <li>難易度選択</li>
-  <li>リスタートボタン</li>
-  <li>Homeページを消す</li>
 </template>
 
 <script lang="ts">
